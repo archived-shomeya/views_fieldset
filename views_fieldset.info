@@ -1,0 +1,5 @@
+; $Id$
+name = Views fieldset
+description = Places exposed filters into a fieldset
+dependencies[] = views
+core = 6.x

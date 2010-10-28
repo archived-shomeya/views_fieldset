@@ -1,0 +1,47 @@
+<?php
+// $Id$
+
+/**
+ * @file views_fieldset.module
+ */
+
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function views_fieldset_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == 'views_exposed_form') {
+    array_unshift($form['#theme'], 'views_fieldset_exposed_form');
+  }
+}
+
+
+/**
+ * Implementation of hook_theme()
+ */
+function views_fieldset_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_fieldset_exposed_form' => array(
+      'arguments' => array('form' => NULL),
+    ),
+  );
+}
+
+
+/**
+ * Theme an exposed form in a fieldset.
+ */
+function theme_views_fieldset_exposed_form(&$form) {
+  // Pass off to views to handle main exposed form theming.
+  $exposed_form = theme('views_exposed_form', $form);
+
+  // Create fieldset for exposed form.
+  $fieldset = array(
+    '#type' => 'fieldset', 
+    '#title' => t('Search'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#children' => $exposed_form,
+  );
+  return drupal_render($fieldset);
+}
